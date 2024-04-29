@@ -1,0 +1,9 @@
+{
+    "Host": "10.10.10.10",
+    "Port": 502,
+    "SlaveID": 1,
+    "TimeBetweenPolls": 1000,
+    "TimeBetweenControls": 1000,
+    "Timeout": 2000,
+    "Retries": 0
+}

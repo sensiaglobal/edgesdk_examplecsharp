@@ -1,0 +1,47 @@
+BUILD:
+docker build .-f Dockerfile -t cpapp:1.0.0
+
+NOTE:-
+Depending on your build environment you may need to:
+    1. run the docker build with the 'sudo' rights
+    2. it may be required to log into the your docker instance using with
+        docker login
+
+
+#BUILD the image:
+docker build . -f Dockerfile -t csapp:1.0.0 --no-cache
+
+# Prepare your yml file and then you MUST copy it to the hcc2devtools folder
+# Create a copy of the default yml file, and edit it as your require,
+# then move it to the hcc2devtools folder
+# NOTE:- Call the .yml file anything you want, but the name of your app is meaningful
+cp docker-compose.yml csapp.yml     
+mv csapp.yml ~/hcc2devtools
+
+#Package The app
+cd ~/hcc2devtools
+./package_app.sh csapp.yml
+
+# Rename your mender file
+mv collection-signed-private.mender csapp.mender  # Or any other name of your choosing
+
+# Using the EPM, transfer your packaged application to your hcc2devtools
+# When satisfied, you can clean up the hcc2devtools folder
+# Clean up your folder
+# NOTE:- depending on your app name/version etc the file names may be different
+cd ~hcc2devtools
+rm *.tar.gz
+rm csapp.mender
+rm csapp.yml
+
+
+#
+# Check the HOST_NAME/PORT match your device ip address and port settings
+# 
+RUN TEST:
+docker compose -f docker-compose-offline-test.yml up -d
+STOP TEST:
+docker compose -f docker-compose-offline-test.yml down -v
+
+RUN DEPLOY:
+docker compose -f docker-compose-offline.yml up -d

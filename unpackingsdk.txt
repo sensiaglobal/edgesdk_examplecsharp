@@ -1,0 +1,14 @@
+
+dotnet nuget add source csapp/SDKPackages -n SDKPackages
+dotnet add package hcc2sdkcs --version "0.1.0" --source "SDKPackages"
+
+to remove:
+dotnet nuget remove source SDKPackages
+dotnet remove package hcc2sdkcs
+
+to clean packages cache for update package:
+dotnet nuget locals global-packages --clear
+
+to list installed packages:
+
+dotnet list package
